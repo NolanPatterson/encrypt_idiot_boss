@@ -1,12 +1,12 @@
 # misc
 assign_30900_idiot_boss.docx
-
+index1.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.pem
-
+new_user_profiles/
 
 # C extensions
 *.so
