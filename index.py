@@ -1,9 +1,9 @@
+import os
+import base64
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.backends import default_backend
-import base64
-import os
 
 
 # Helper method to convert bytes to strings
@@ -29,7 +29,7 @@ def load_public_key(file_name):
     return public_key
 
 
-# 3. Use the old_private_key to decrypt ONE bin file in the user_profiles directory.
+# 3. Use old_private_key to decrypt file in user_profiles.
 # files in the user_profiles directory are Bin files.
 # the file format is aaron_.diaz.bin, aaron_flores.bin, adammartin.bin, etc.
 def decrypt_profile(encrypted_profile, key):
@@ -70,19 +70,21 @@ def main():
     # Load the public key
     public_key = load_public_key('new_public_key.pem')
 
-    # Open the encrypted bin file from the user_profiles directory and print to screen
+    # Open encrypted file in user_profiles
     with open('user_profiles/aaron_diaz.bin', 'rb') as file:
         encrypted_data = file.read()
 
     # Decrypt the profile with the private key
     decrypted_profile = decrypt_profile(encrypted_data, private_key)
     print(f"Decrypted Profile: {utf8(decrypted_profile)}")
-    print(f"\nEncrypted with new key: {encrypt_profile(decrypted_profile, public_key)}")
+    print(f"\nEncrypted with new key: {encrypt_profile(decrypted_profile,
+                                                       public_key)}")
 
-    # Encrypt the profile with the public key and save to new_user_profiles directory
+    # Encrypt the profile with public key, save to new_user_profiles directory
     os.makedirs("new_user_profiles", exist_ok=True)
     encrypted_profile = encrypt_profile(decrypted_profile, public_key)
-    write_encrypted_profile_to_file('new_user_profiles/aaron_diaz.bin', encrypted_profile)
+    write_encrypted_profile_to_file('new_user_profiles/aaron_diaz.bin',
+                                    encrypted_profile)
 
 
 if __name__ == "__main__":
